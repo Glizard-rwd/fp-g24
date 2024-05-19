@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.claimsystem.g24fp.controllers.admin.AdminController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <BorderPane prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <top>
+                  <AnchorPane prefHeight="45.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane prefHeight="45.0" prefWidth="200.0">
+                           <children>
+                              <Text layoutX="34.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="G24FP Enterprise" />
+                              <FontAwesomeIconView glyphName="BANK" layoutX="13.0" layoutY="28.0" size="12" />
+                           </children>
+                        </AnchorPane>
+                        <Button layoutX="1073.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" text="X" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0" />
+                     </children>
+                  </AnchorPane>
+               </top>
+               <left>
+                  <AnchorPane prefHeight="555.0" prefWidth="141.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <AnchorPane prefHeight="555.0" prefWidth="141.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Text layoutX="52.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" />
+                              <Button layoutX="9.0" layoutY="524.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="62.0" text="Log out" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" />
+                              <FontAwesomeIconView glyphName="USER" layoutX="49.0" layoutY="86.0" size="60" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </left>
+               <center>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <TabPane prefHeight="555.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <tabs>
+                            <Tab text="Customer">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="search_cust" layoutX="14.0" layoutY="14.0" promptText="searchCustomer" />
+                                          <TableView fx:id="cust_tb" layoutX="14.0" layoutY="51.0" prefHeight="319.0" prefWidth="824.0">
+                                            <columns>
+                                              <TableColumn fx:id="cid_col" prefWidth="93.0" text="id" />
+                                              <TableColumn fx:id="cname_col" prefWidth="146.0" text="name" />
+                                                <TableColumn fx:id="ctype_col" prefWidth="118.0" text="type" />
+                                                <TableColumn fx:id="uname_col" prefWidth="109.0" text="username" />
+                                                <TableColumn fx:id="powner_col" prefWidth="132.0" text="policy owner" />
+                                                <TableColumn fx:id="pholder_col" prefWidth="107.0" text="policy holder" />
+                                                <TableColumn fx:id="relation_col" prefWidth="118.0" text="relationship" />
+                                            </columns>
+                                          </TableView>
+                                          <ButtonBar layoutX="232.0" layoutY="456.0" prefHeight="40.0" prefWidth="200.0">
+                                             <buttons>
+                                                <Button fx:id="cCust" mnemonicParsing="false" onAction="#crudCustomer" text="Create" />
+                                                <Button fx:id="uCust" layoutX="190.0" layoutY="18.0" mnemonicParsing="false" onAction="#crudCustomer" text="Update" />
+                                                <Button fx:id="dCust" layoutX="110.0" layoutY="18.0" mnemonicParsing="false" onAction="#crudCustomer" text="Delete" />
+                                                <Button fx:id="lCust" layoutX="140.0" layoutY="18.0" mnemonicParsing="false" onAction="#crudCustomer" text="Load" />
+                                             </buttons>
+                                          </ButtonBar>
+                                          <Button fx:id="ad_search_cust" layoutX="175.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchCustomer" text="search" />
+                                          <TextField fx:id="custidF" layoutX="83.0" layoutY="380.0" promptText="id" />
+                                          <TextField fx:id="custNameF" layoutX="83.0" layoutY="414.0" promptText="name" />
+                                          <TextField fx:id="custTypeF" layoutX="260.0" layoutY="380.0" promptText="type" />
+                                          <TextField fx:id="unameF" layoutX="260.0" layoutY="414.0" promptText="username" />
+                                          <TextField fx:id="pwF" layoutX="439.0" layoutY="380.0" promptText="policy owner" />
+                                          <TextField fx:id="phF" layoutX="439.0" layoutY="414.0" promptText="policy holder" />
+                                          <TextField fx:id="dep" layoutX="617.0" layoutY="380.0" promptText="dependent relationship" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Provider">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="391.0" prefWidth="688.0">
+                                       <children>
+                                          <TableView fx:id="prov_tb" layoutX="34.0" layoutY="28.0" prefHeight="366.0" prefWidth="741.0">
+                                            <columns>
+                                              <TableColumn fx:id="pid_col" prefWidth="86.0" text="id" />
+                                              <TableColumn fx:id="pname_col" prefWidth="194.0" text="prov_name" />
+                                                <TableColumn fx:id="pposition_col" prefWidth="149.0" text="position" />
+                                                <TableColumn fx:id="manager_col" prefWidth="161.0" text="manager" />
+                                                <TableColumn fx:id="provUname_col" prefWidth="150.0" text="username" />
+                                            </columns>
+                                          </TableView>
+                                        <Button fx:id="cProv" layoutX="661.0" layoutY="422.0" mnemonicParsing="false" onAction="#crudProvider" text="Create" />
+                                          <Button fx:id="uProv" layoutX="716.0" layoutY="422.0" mnemonicParsing="false" onAction="#crudProvider" text="Update" />
+                                          <Button fx:id="dProv" layoutX="662.0" layoutY="447.0" mnemonicParsing="false" onAction="#crudProvider" text="Delete" />
+                                          <Button fx:id="lProv" layoutX="716.0" layoutY="447.0" mnemonicParsing="false" onAction="#crudProvider" prefHeight="24.0" prefWidth="59.0" text="Load" />
+                                          <TextField fx:id="providF" layoutX="34.0" layoutY="407.0" promptText="proviver id" />
+                                          <TextField fx:id="provNameF" layoutX="34.0" layoutY="447.0" promptText="provider name" />
+                                          <TextField fx:id="provPositionF" layoutX="223.0" layoutY="407.0" promptText="provider position" />
+                                          <TextField fx:id="managerF" layoutX="223.0" layoutY="447.0" promptText="provider manager" />
+                                          <TextField fx:id="provUname" layoutX="405.0" layoutY="407.0" promptText="provider username" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                              <Tab text="Claim">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TableView fx:id="claim_tb" layoutX="28.0" layoutY="49.0" prefHeight="391.0" prefWidth="894.0">
+                                            <columns>
+                                              <TableColumn fx:id="claimID_col" prefWidth="75.0" text="ID" />
+                                              <TableColumn fx:id="insuredPerson_col" prefWidth="103.0" text="Insured Person" />
+                                                <TableColumn fx:id="appliedPolicy_col" prefWidth="103.0" text="Applied Policy" />
+                                                <TableColumn fx:id="claimDate_col" prefWidth="103.0" text="Claim Date" />
+                                                <TableColumn fx:id="examDate_col" prefWidth="103.0" text="Exam Date" />
+                                                <TableColumn fx:id="requestAmount_col" prefWidth="103.0" text="Request Amount" />
+                                                <TableColumn fx:id="claimAmount_col" prefWidth="103.0" text="Claim Amount" />
+                                                <TableColumn fx:id="processBy_col" prefWidth="103.0" text="Process By" />
+                                                <TableColumn fx:id="claimStatus_col" prefWidth="103.0" text="Status" />
+                                            </columns>
+                                          </TableView>
+                                          <ButtonBar layoutX="239.0" layoutY="426.0" prefHeight="40.0" prefWidth="200.0" />
+                                          <Button fx:id="loadClaimBtn" layoutX="853.0" layoutY="466.0" mnemonicParsing="false" onAction="#loadClaim" prefHeight="28.0" prefWidth="69.0" text="Load" />
+                                          <TextField fx:id="searchClaimF" layoutX="28.0" layoutY="15.0" onAction="#searchClaim" promptText="searchCustomer" />
+                                          <Button fx:id="searchClaimBtn" layoutX="189.0" layoutY="15.0" mnemonicParsing="false" onAction="#searchCustomer" text="search" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                              <Tab text="History">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TextArea fx:id="historyR" layoutX="34.0" layoutY="29.0" prefHeight="427.0" prefWidth="795.0" />
+                                       </children></AnchorPane>
+                                 </content>
+                              </Tab>
+                          </tabs>
+                        </TabPane>
+                     </children></AnchorPane>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

@@ -1,0 +1,309 @@
+
+SELECT * FROM customer WHERE id = 'c9876543';
+SELECT * FROM insurance_card WHERE card_holder = 'c1234570';
+SELECT * FROM bank WHERE customer_id = 'c1234570';
+
+select * from user_info;
+select * from customer;
+select * from insurance_card;
+select * from bank;
+select * from claim;
+
+
+--USER_INFO
+create table user_info
+(
+    id varchar(20) primary key,
+    password varchar(20) not null,
+    create_time timestamp not null default current_timestamp,
+    last_visit timestamp not null default current_timestamp check (last_visit >= create_time) -- last visit time must be later than create time
+
+);
+
+insert into user_info values ('admin1', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('admin2', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('pholder1', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('pholder2', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('pholder3', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('powner1', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('powner2', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('isurveyor1', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('isurveyor2', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('imanager1', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('dep1', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('dep2', '12345', current_timestamp, current_timestamp);
+insert into user_info values ('dep3', '12345', current_timestamp, current_timestamp);
+select * from user_info;
+select * from claim;
+
+
+create table customer(
+     id varchar(20) primary key check (id ~ '^c[0-9]{7}$'), -- customer id must be in the format of cxxxxxxx
+     cust_name varchar(50) not null,
+     cust_type varchar(20) not null,
+     user_name varchar(20) not null,
+     policy_owner varchar(20) check (policy_owner is null or policy_owner ~ '^c[0-9]{7}$'), -- policy owner id must be in the format of cxxxxxxx
+     policy_holder varchar(20) check (policy_holder is null or policy_holder ~ '^c[0-9]{7}$'), -- policy holder id must be in the format of cxxxxxxx
+     dep_relationship varchar(20) check (dep_relationship is null or dep_relationship ~ '^[a-zA-Z]+$'),
+     foreign key (user_name) references user_info(id) on delete cascade
+);
+alter table customer add column dep_relationship varchar(20) check (dep_relationship is null or dep_relationship ~ '^[a-zA-Z]+$');
+
+drop table if exists customer cascade;
+select * from customer;
+insert into customer values ('c1234567', 'Alice', 'policy holder', 'pholder1', 'c7654321', null);
+insert into customer values ('c1234568', 'Bob', 'policy holder', 'pholder2', 'c7654321', null);
+insert into customer values ('c1234569', 'Charlie', 'policy holder', 'pholder3', 'c7654322', null);
+insert into customer values ('c7654321', 'RMIT University', 'policy owner', 'powner1', null, null);
+insert into customer values ('c7654322', 'Lotte Co.', 'policy owner', 'powner2', null, null);
+insert into customer values ('c9876543', 'Harry Potter', 'dependent', 'dep1', 'c7654321', 'c1234567', 'child');
+insert into customer values ('c9876544', 'Hermione Granger', 'dependent', 'dep2','c7654321', 'c1234567', 'child');
+insert into customer values ('c9876545', 'Voldemort', 'Parent', 'dep3', 'c7654322', 'c1234568', 'ancestor');
+
+
+select * from customer;
+
+-- create table dependent(
+--       dep_id varchar(20) primary key check (dep_id ~ '^c[0-9]{7}$'), -- dependent id must be in the format of cxxxxxxx
+--       dep_name varchar(50) not null,
+--       dep_type varchar(20) not null, -- relationship with the owner
+--       dep_owner varchar(20) not null check (dep_owner ~ '^c[0-9]{7}$'), -- dependent owner id must be in the format of cxxxxxxx
+--       foreign key (dep_owner) references customer(cust_id) on delete cascade
+-- );
+--
+-- insert into dependent values ('c9876543', 'Harry Potter', 'Child', 'c1234567');
+-- insert into dependent values ('c9876544', 'Hermione Granger', 'Child', 'c1234567');
+-- insert into dependent values ('c9876545', 'Voldemort', 'Parent', 'c1234568');
+-- select * from dependent;
+--
+-- drop table if exists dependent;
+
+create table provider(
+     id varchar(20) primary key check (id ~ '^p[0-9]{7}$'), -- provider id must be in the format of pxxxxxxx
+     prov_name varchar(50) not null,
+     position varchar(20) not null,
+     manager varchar(20) check (manager is null or manager ~ '^p[0-9]{7}$'), -- manager id must be in the format of pxxxxxxx
+     user_name varchar(20) not null,
+     foreign key (user_name) references user_info(id) on delete cascade
+);
+
+-- drop table if exists provider;
+
+
+select * from provider;
+
+insert into provider values ('p1234567', 'Marie Curie', 'insurance surveyor', 'p9886543', 'isurveyor1');
+update provider set manager = 'p7886543' where id = 'p1234567';
+insert into provider values ('p1234568', 'Elon Musk', 'insurance surveyor', 'p9886543', 'isurveyor2');
+update provider set manager = 'p7886543' where id = 'p1234568';
+insert into provider values ('p7886543', 'Tesla', 'insurance manager', null, 'imanager1');
+
+create table sys_admin(
+  id varchar(20) primary key check (id ~ '^s[0-9]{7}$'), -- system admin id must be in the format of sxxxxxxx
+  sa_name varchar(50) not null,
+  user_name varchar(20) not null,
+  foreign key (user_name) references user_info(id)
+);
+
+insert into sys_admin values ('s1122334', 'Steve Jobs', 'admin1');
+insert into sys_admin values ('s2211335', 'Bill Gates', 'admin2');
+
+CREATE TABLE insurance_card (
+    id VARCHAR(20) PRIMARY KEY CHECK (id ~ '^[0-9]{10}$'), -- card number must be 10 digits
+    card_holder VARCHAR(20) NOT NULL,
+    expiration_date DATE NOT NULL,
+    FOREIGN KEY (card_holder) REFERENCES customer(id) ON DELETE CASCADE
+);
+
+insert into insurance_card values ('1234567890', 'c1234567', '2023-12-31');
+insert into insurance_card values ('2345678901', 'c1234568', '2023-12-31');
+insert into insurance_card values ('3456789012', 'c1234569', '2023-12-31');
+insert into insurance_card values ('9008723475', 'c7654321', '2023-12-31');
+insert into insurance_card values ('9008723476', 'c7654322', '2023-12-31');
+insert into insurance_card values ('9008723477', 'c9876543', '2023-12-31');
+select * from insurance_card;
+
+
+create table policy(
+   id varchar(20) primary key,
+   policy_name varchar(20) not null,
+   policy_type varchar(20) not null,
+   policy_content varchar(250) not null,
+   cover_rate double precision not null,
+   policy_owner varchar(20) not null,
+   foreign key (policy_owner) references customer(id) on delete cascade
+);
+drop table if exists policy cascade;
+insert into policy values ('p01', 'Health Insurance', 'Health', 'Cover all the medical expenses', 0.8, 'c7654321');
+insert into policy values ('p02', 'Life Insurance', 'Life', 'Cover all the life expenses', 0.9, 'c7654322');
+
+create table claim(
+      id varchar(20) primary key check (id ~ '^f[0-9]{10}$'), -- claim id must be in the format of fxxxxxxx
+      insured_person varchar(20) not null,
+      request_amount double precision not null check (request_amount > 0), -- amount must be positive
+      applied_policy varchar(20) not null,
+      claim_date date not null default current_date, -- claim date is the date when the claim is submitted
+      exam_date date not null default current_date check (exam_date >= claim_date), -- exam date is the date when the claim is examined
+      claim_status varchar(20) not null, -- claim status must be new, processing, done
+      claim_amount double precision check (claim_amount >= 0), -- amount must be non-negative
+      process_by varchar(20) not null, -- claim process by which provider
+      foreign key (applied_policy) references policy(id) on delete cascade,
+      foreign key (insured_person) references customer(id) on delete cascade,
+      foreign key (process_by) references provider(id) on delete cascade
+);
+
+drop table if exists claim cascade;
+
+select * from claim;
+
+insert into claim values ('f1234567890', 'c1234567', 1000, 'p01', '2023-12-31', '2023-12-31', 'new', 0, 'p1234567');
+insert into claim values ('f2345678901', 'c1234568', 2000, 'p01', '2023-12-31', '2024-01-31', 'processing', 0, 'p1234568');
+insert into claim values ('f3456789012', 'c1234569', 3000, 'p02', '2023-12-31', '2024-02-15', 'done', 0, 'p7886543');
+insert into claim values ('f4567890123', 'c1234567', 4000, 'p02', '2023-12-31', '2024-03-31', 'processing', 0, 'p1234567');
+
+CREATE TABLE bank (
+  id VARCHAR(25) PRIMARY KEY NOT NULL,
+  bankAccName VARCHAR(20) NOT NULL,
+  bankName VARCHAR(20) NOT NULL,
+  balance DOUBLE PRECISION NOT NULL DEFAULT 0,
+  customer_id VARCHAR(20) NOT NULL,
+  FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE
+);
+
+
+drop table if exists bank cascade;
+
+insert into bank values ('4907283714', 'Alice', 'ANZ', 0, 'c1234567');
+insert into bank values ('4907298742', 'Bob', 'NAB', 0, 'c1234568');
+insert into bank values ('4907763957', 'Charlie', 'CBA', 0, 'c1234569');
+insert into bank values ('4567890123', 'RMIT University', 'CBA', 0, 'c7654321');
+insert into bank values ('4678901234', 'Lotte Co.', 'ANZ', 0, 'c7654322');
+insert into bank values ('4789012345', 'Harry Potter', 'NAB', 0, 'c9876543');
+insert into bank values ('4890123456', 'Hermione Granger', 'CBA', 0, 'c9876544');
+insert into bank values ('4901234567', 'Voldemort', 'ANZ', 0, 'c9876545');
+
+select * from bank;
+
+
+
+CREATE TABLE document (
+  id VARCHAR(10) PRIMARY KEY NOT NULL,
+  docName VARCHAR(50) NOT NULL, -- document name must be in the format of pdf
+  image BYTEA,
+  claimID VARCHAR(20) NOT NULL,
+  FOREIGN KEY (claimID) REFERENCES claim(id) on delete cascade
+);
+
+insert into document values ('d01', 'document1', null, 'f1234567890');
+insert into document values ('d02', 'document2', null, 'f2345678901');
+insert into document values ('d03', 'document3', null, 'f3456789012');
+insert into document values ('d04', 'document4', null, 'f4567890123');
+
+
+create table log(
+    logID serial primary key,
+    user_name varchar(20),
+    action_type varchar(10),
+    alter_table varchar(20),
+    entity_id varchar(10),
+    old_value jsonb,
+    new_value jsonb,
+    action_time timestamp not null default current_timestamp,
+    is_active boolean not null default true,
+    foreign key (user_name) references user_info(id)
+);
+
+-- log: logID, action_by, action_time, alter_table, description (action type: do sth of column in table)
+
+
+drop table if exists log cascade;
+alter table log drop column action_time;
+alter table log add column action_time timestamp not null default current_timestamp;
+
+
+select c.*, ic.id, b.id from customer c join bank b on c.id = b.customer_id join insurance_card ic on c.id = ic.card_holder;
+select * from customer;
+select * from insurance_card;
+select * from bank;
+
+-- log and statistics
+select * from user_info;
+
+CREATE OR REPLACE FUNCTION log_trigger()
+    RETURNS TRIGGER AS
+$$
+Declare action_by varchar(20);
+BEGIN
+    action_by = 'admin1';
+    IF TG_OP = 'DELETE' THEN
+        INSERT INTO log (user_name, action_type, alter_table, entity_id, old_value, new_value, is_active)
+        VALUES (action_by, TG_OP, TG_TABLE_NAME, OLD.id, row_to_json(OLD), null, false);
+    ELSIF TG_OP = 'UPDATE' THEN
+        INSERT INTO log (user_name, action_type, alter_table, entity_id, old_value, new_value)
+        VALUES (action_by, TG_OP, TG_TABLE_NAME, OLD.id, row_to_json(OLD), row_to_json(NEW));
+    ELSIF TG_OP = 'INSERT' THEN
+        INSERT INTO log (user_name, action_type, alter_table, entity_id, old_value, new_value)
+        VALUES (action_by, TG_OP, TG_TABLE_NAME, NEW.id, null, row_to_json(NEW));
+    END IF;
+    RETURN NEW;
+END;
+$$
+    LANGUAGE plpgsql;
+
+create trigger user_info_trigger
+    after insert or update or delete on user_info
+    for each row execute function log_trigger();
+
+CREATE TRIGGER customer_log_trigger
+    AFTER INSERT OR UPDATE OR DELETE ON customer
+    FOR EACH ROW EXECUTE FUNCTION log_trigger();
+
+CREATE TRIGGER provider_log_trigger
+    AFTER INSERT OR UPDATE OR DELETE ON provider
+    FOR EACH ROW EXECUTE FUNCTION log_trigger();
+
+CREATE TRIGGER claim_log_trigger
+    AFTER INSERT OR UPDATE OR DELETE ON claim
+    FOR EACH ROW EXECUTE FUNCTION log_trigger();
+
+CREATE TRIGGER insurance_card_trigger
+    AFTER INSERT OR UPDATE OR DELETE ON insurance_card
+    FOR EACH ROW EXECUTE FUNCTION log_trigger();
+
+CREATE TRIGGER bank_trigger
+    AFTER INSERT OR UPDATE OR DELETE ON bank
+    FOR EACH ROW EXECUTE FUNCTION log_trigger();
+
+CREATE TRIGGER policy_trigger
+    AFTER INSERT OR UPDATE OR DELETE ON policy
+    FOR EACH ROW EXECUTE FUNCTION log_trigger();
+
+CREATE TRIGGER document_trigger
+    AFTER INSERT OR UPDATE OR DELETE ON document
+    FOR EACH ROW EXECUTE FUNCTION log_trigger();
+
+
+
+
+insert into user_info values ('pholder5', '12345', current_timestamp, current_timestamp);
+insert into customer values ('c1234599', 'Lam', 'policy holder', 'pholder5', 'c7654322', null);
+
+select * from log;
+
+delete from user_info where id = 'pholder5';
+select * from log;
+
+drop trigger customer_log_trigger on customer;
+drop trigger user_info_trigger on user_info;
+
+select c.*, ic.id, b.id from customer c left join insurance_card ic on c.id = ic.card_holder left join bank b on c.id = b.customer_id where c.id = 'c1234567';
+
+select * from customer;
+select * from policy;
+select * from provider;
+select * from claim;
+select * from document;
+
+select * from log;
+
+

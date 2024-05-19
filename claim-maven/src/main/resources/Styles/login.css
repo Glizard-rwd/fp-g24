@@ -1,0 +1,43 @@
+/*
+Created on: 2024 May 13th
+Author: s3915155@rmit.edu.vn
+ */
+
+.left-form {
+    -fx-background-color: #66a5ad;
+    -fx-border-color: #000;
+}
+
+.right-form {
+    -fx-background-color: #fff;
+    -fx-border-color: #000;
+}
+
+.close {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.close:hover {
+    -fx-background-color: #cfd8dc;
+}
+
+.text-field {
+    -fx-background-color: #eceff1;
+    -fx-background-radius: 4px;
+}
+
+.text-field:focused {
+    -fx-background-color: #cfd8dc;
+    -fx-border-width: 1px
+}
+
+.login-btn {
+    -fx-background-color: #66a5ad;
+    -fx-background-radius: 4px;
+    -fx-text-fill: #fff;
+}
+
+.login-btn:hover {
+    -fx-background-color: #006c84;
+}
