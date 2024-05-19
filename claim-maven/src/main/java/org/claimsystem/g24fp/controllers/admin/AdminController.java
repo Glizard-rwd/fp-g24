@@ -5,15 +5,22 @@ import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import org.claimsystem.g24fp.controllers.LoginController;
 import org.claimsystem.g24fp.model.*;
 import org.claimsystem.g24fp.model.user.Customer;
 import org.claimsystem.g24fp.model.user.Provider;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -59,8 +66,6 @@ public class AdminController extends LoginController implements Initializable {
     private TableColumn<Customer, String> uname_col;
     @FXML
     private TextField search_cust;
-
-
 
     public void crudCustomer(ActionEvent event) {
         if (event.getSource() == cCust) {

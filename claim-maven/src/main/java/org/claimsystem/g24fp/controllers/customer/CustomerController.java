@@ -228,7 +228,7 @@ public class CustomerController extends LoginController implements Initializable
                 // exit the current stage
                 logoutBtn.getScene().getWindow().hide();
                 // turn back to the login form
-                Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/Fxml/Login.fxml"));
                 Stage stage = new Stage();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);

@@ -69,12 +69,12 @@ public class LoginController implements Initializable {
                 Parent root = null;
                 if (userType.equals("admin")) {
                     // go to admin page
-                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/admin/Admin.fxml")));
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Fxml/admin/Admin.fxml")));
                 } else if (userType.equals("customer")) {
                     // go to customer page
-                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/customer/Customer.fxml")));
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Fxml/customer/Customer.fxml")));
                 } else if (userType.equals("provider")) {
-                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/provider/Provider.fxml")));
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Fxml/provider/Provider.fxml")));
                     // go to provider page
                 }
                 Stage stage =  new Stage();

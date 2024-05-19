@@ -105,7 +105,7 @@ public class ProviderController extends LoginController implements Initializable
                 // exit the current stage
                 logoutbtn.getScene().getWindow().hide();
                 // turn back to the login form
-                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Login.fxml")));
+                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Fxml/Login.fxml")));
                 Stage stage = new Stage();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
